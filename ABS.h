@@ -35,8 +35,15 @@ public:
     ~ABS();                                     // Destructor
 
     // Behaviors
-    void push(T data);
-    T pop();
+    void push(T data);                          // Add to stack
+    T pop();                                    // Remove and return last item in stack
+    T peek();                                   // Return last item in stack
+    
+    // Accessors
+    T peek() const;                             // Return last item in stack
+    unsigned int getSize() const;               // _size getter
+    unsigned int getMaxCapacity() const;        // _capacity getter
+    T* getData() const;                         // _data getter
 };
 
 template <typename T>
@@ -131,6 +138,7 @@ void ABS<T>::push(T data)
     add(data);
 }
 
+// Add error-handling
 template <typename T>
 T ABS<T>::pop()
 {
@@ -138,3 +146,32 @@ T ABS<T>::pop()
     _size--;
     return _data[_size];
 }
+
+// Add error-handling
+template <typename T>
+T ABS<T>::peek() const
+{
+    return _data[_size - 1];
+}
+
+template <typename T>
+unsigned int ABS<T>::getSize() const
+{
+    return _size;
+}
+
+template <typename T>
+unsigned int ABS<T>::getMaxCapacity() const
+{
+    return _capacity;
+}
+
+template <typename T>
+T* ABS<T>::getData() const
+    {
+        return _data;
+    }
+
+
+
+
