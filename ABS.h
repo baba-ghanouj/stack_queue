@@ -15,12 +15,11 @@ private:
     unsigned int _capacity;                     // Current max capacity of the stack
 
     // Class variable
-    const static float scale_factor = 2.0f;     // Scale factor for adjusting _capacity
+    float scale_factor = 2.0f;     // Scale factor for adjusting _capacity
     
     // Private behaviors
     void shrink_capacity();
     void increase_capacity();
-    void resize();
     void add(T object);
     void copy_from_object(const ABS& object);
 
@@ -37,7 +36,6 @@ public:
     // Behaviors
     void push(T data);                          // Add to stack
     T pop();                                    // Remove and return last item in stack
-    T peek();                                   // Return last item in stack
     
     // Accessors
     T peek() const;                             // Return last item in stack
@@ -46,33 +44,39 @@ public:
     T* getData() const;                         // _data getter
 };
 
+// Remove debug tools
 template <typename T>
 void ABS<T>::shrink_capacity()
 {
-    if (_size / _capacity < 1 / scale_factor)
-    {
-        cout << "Shrinking... Old capacity: " << _capacity << endl;
+    float size = getSize();
+    float capacity = getMaxCapacity();
+
+    if (size / capacity < 1 / scale_factor)
+    {  
+        //cout << "Shrinking... Old capacity: " << _capacity << endl;
         _capacity = _capacity / scale_factor;
         T *resized_data = new T[_capacity];
-        for (unsigned int i = 0; i < _size; i++)
+        for (unsigned int i = 0; i < _size + 1; i++)
             resized_data[i] = _data[i];
         _data = resized_data;
-        cout << "New shrunk capacity: " << _capacity << endl;
+        //cout << "New shrunk capacity: " << _capacity << endl;
     }
+    //cout << "" << size / capacity << " > " << 1 / scale_factor << endl;
 }
 
+// Remove debug tools
 template <typename T>
 void ABS<T>::increase_capacity()
 {
     if (_size == _capacity)
     {
-        cout << "Expanding... Old capacity: " << _capacity << endl;
+        //cout << "Expanding... Old capacity: " << _capacity << endl;
         _capacity = _capacity * scale_factor;
         T *resized_data = new T[_capacity];
         for (unsigned int i = 0; i < _size; i++)
             resized_data[i] = _data[i];
         _data = resized_data;
-        cout << "New increased capacity: " << _capacity << endl;
+        //cout << "New increased capacity: " << _capacity << endl;
     }
 }
 
@@ -131,19 +135,23 @@ ABS<T>::~ABS()
     delete[] _data;
 }
 
+//Remove debug statements
 template <typename T>
 void ABS<T>::push(T data)
 {
     increase_capacity();
     add(data);
+    //cout <<"PUSH! size: " << _size << " capacity: " << _capacity << endl;
 }
 
-// Add error-handling
+// Add error-handling and remove debug statements
 template <typename T>
 T ABS<T>::pop()
 {
-    shrink_capacity();
+    //cout << "" << _size / _capacity << " > " << 1 / scale_factor << endl;
     _size--;
+    shrink_capacity();
+    //cout << "POP! size: " << _size << " capacity: " << _capacity << endl;
     return _data[_size];
 }
 

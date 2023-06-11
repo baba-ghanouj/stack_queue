@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ABS.h"
+//#include "ABS.h"
 
 using namespace std;
 
@@ -12,14 +12,18 @@ int main()
     // cout << test << endl;
     // cout << test2 << endl;
 
-    ABS<int> abs(500);
-    abs.push(20);
-    abs.push(20);
-    abs.push(20);
-    abs.push(20);
-    abs.pop();
-    for (int i = 0; i < 4000; i++)
-        abs.push(i);
+//     ABS<int> abs;
+    
+//     for (int i = 0; i < 10; i++)
+//         abs.push(i);
+
+// for (int i = 0; i < 9; i++)
+//         abs.pop();
+
+    int var = 3;
+    float test = var;
+    test /= 2;
+    cout << var <<" " << test << endl;
 
 
     return 0;
