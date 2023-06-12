@@ -42,9 +42,11 @@ public:
     unsigned int getSize() const;               // _size getter
     unsigned int getMaxCapacity() const;        // _capacity getter
     T* getData() const;                         // _data getter
+
+    // Debug
+    void print();
 };
 
-// Remove debug tools
 template <typename T>
 void ABS<T>::shrink_capacity()
 {
@@ -53,30 +55,31 @@ void ABS<T>::shrink_capacity()
 
     if (size / capacity < 1 / scale_factor)
     {  
-        //cout << "Shrinking... Old capacity: " << _capacity << endl;
         _capacity = _capacity / scale_factor;
-        T *resized_data = new T[_capacity];
+        T *resized_data = new T[_capacity + 1];
+
         for (unsigned int i = 0; i < _size + 1; i++)
             resized_data[i] = _data[i];
+        
+        delete[] _data;
         _data = resized_data;
-        //cout << "New shrunk capacity: " << _capacity << endl;
+    
     }
-    //cout << "" << size / capacity << " > " << 1 / scale_factor << endl;
 }
 
-// Remove debug tools
 template <typename T>
 void ABS<T>::increase_capacity()
 {
     if (_size == _capacity)
     {
-        //cout << "Expanding... Old capacity: " << _capacity << endl;
         _capacity = _capacity * scale_factor;
         T *resized_data = new T[_capacity];
+
         for (unsigned int i = 0; i < _size; i++)
             resized_data[i] = _data[i];
+
+        delete[] _data;
         _data = resized_data;
-        //cout << "New increased capacity: " << _capacity << endl;
     }
 }
 
@@ -117,6 +120,7 @@ ABS<T>::ABS(unsigned int capacity)
 template <typename T>
 ABS<T>::ABS(const ABS& rhs)
 {
+    delete[] _data;
     copy_from_object(rhs);
 }
 
@@ -135,30 +139,30 @@ ABS<T>::~ABS()
     delete[] _data;
 }
 
-//Remove debug statements
 template <typename T>
 void ABS<T>::push(T data)
 {
     increase_capacity();
     add(data);
-    //cout <<"PUSH! size: " << _size << " capacity: " << _capacity << endl;
 }
 
-// Add error-handling and remove debug statements
 template <typename T>
 T ABS<T>::pop()
 {
-    //cout << "" << _size / _capacity << " > " << 1 / scale_factor << endl;
+    if (_size == 0)
+        throw std::runtime_error("Stack is empty.");
+
     _size--;
     shrink_capacity();
-    //cout << "POP! size: " << _size << " capacity: " << _capacity << endl;
     return _data[_size];
 }
 
-// Add error-handling
 template <typename T>
 T ABS<T>::peek() const
 {
+    if (_size == 0)
+    throw std::runtime_error("Stack is empty.");
+
     return _data[_size - 1];
 }
 
@@ -180,6 +184,17 @@ T* ABS<T>::getData() const
         return _data;
     }
 
-
+// DEBUGGER
+template <typename T> 
+void ABS<T>::print()
+{
+    cout << "_data contents: ";
+    for (unsigned int i = 0; i < _capacity; i++)
+    {
+        cout << _data[i] << " ";
+    }
+    cout << endl;
+    cout << "_capacity: " << _capacity << " _size: " << _size << endl;
+}
 
 
