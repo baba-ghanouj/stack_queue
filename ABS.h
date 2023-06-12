@@ -62,8 +62,7 @@ void ABS<T>::shrink_capacity()
             resized_data[i] = _data[i];
         
         delete[] _data;
-        _data = resized_data;
-    
+        _data = resized_data; 
     }
 }
 
@@ -120,7 +119,6 @@ ABS<T>::ABS(unsigned int capacity)
 template <typename T>
 ABS<T>::ABS(const ABS& rhs)
 {
-    delete[] _data;
     copy_from_object(rhs);
 }
 
