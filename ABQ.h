@@ -64,6 +64,7 @@ void ABQ<T>::shrink_capacity()
         _capacity = _capacity / SCALE_FACTOR;
         // Allocate memory for new array to store transferred objects
         T *resized_data = new T[_capacity + 1];
+        
         // Transfer objects from old array to new array according to _size
         for (unsigned int i = 0; i < _size + 1; i++)
         {
@@ -91,6 +92,7 @@ void ABQ<T>::increase_capacity()
         _capacity = _capacity * SCALE_FACTOR;
         // Allocate memory for new array to store transferred objects
         T *resized_data = new T[_capacity];
+        
         // Transfer objects from old array to new array according to _size
         for (unsigned int i = 0; i < _size; i++)
         {
